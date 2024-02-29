@@ -14,8 +14,10 @@ namespace AgboolaBuyingTShirt.Test
         [Test]
         public void WebdriveSaucedemo()
         {
-            // Set up Chrome WebDriver
-            IWebDriver driver = new ChromeDriver();
+            // Step 1: Navigate to the Sauce Labs Sample Application (https://www.saucedemo.com/) in Incognito mode.
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("--incognito");
+            IWebDriver driver = new ChromeDriver(options);
 
             //Maximize the browser window for better view
             driver.Manage().Window.Maximize();
@@ -23,12 +25,12 @@ namespace AgboolaBuyingTShirt.Test
             // Navigate to Sauce Labs Sample Application
             driver.Navigate().GoToUrl("https://www.saucedemo.com/");
 
-            // Step 2: Enter valid credentials to log in
+            // Step 2:  Enter valid credentials to log in.
             driver.FindElement(By.Id("user-name")).SendKeys("standard_user");
             driver.FindElement(By.Id("password")).SendKeys("secret_sauce");
             driver.FindElement(By.Id("login-button")).Click();
 
-            // Step 3: Verify successful login
+            // Step 3:  Verify that the login is successful and the user is redirected to the products page.
             IWebElement productsPageTitle = driver.FindElement(By.ClassName("title"));
             if (productsPageTitle.Text != "Products")
             {
@@ -39,10 +41,10 @@ namespace AgboolaBuyingTShirt.Test
 
             Thread.Sleep(1000);
 
-            // Step 4: Select a T-shirt
+            // Step 4: Select a T-shirt by clicking on its image.
             driver.FindElement(By.CssSelector(".inventory_item:nth-child(3) .inventory_item_img")).Click();
 
-            // Step 5: Verify T-shirt details page
+            // Step 5:  Verify that the T-shirt details page is displayed.
             IWebElement tshirtDetailsPageTitle = driver.FindElement(By.CssSelector(".inventory_details_name"));
             if (!tshirtDetailsPageTitle.Displayed)
             {
@@ -52,10 +54,10 @@ namespace AgboolaBuyingTShirt.Test
             }
             Thread.Sleep(1000);
 
-            // Step 6: Add T-shirt to cart
+            // Step 6:  Click the "Add to Cart" button.
             driver.FindElement(By.CssSelector(".btn_inventory")).Click();
 
-            // Step 7: Verify T-shirt added to cart
+            // Step 7:  Verify that the T-shirt is added to the cart successfully.
             IWebElement cartItem = driver.FindElement(By.CssSelector(".shopping_cart_badge"));
             if (cartItem.Text != "1")
             {
@@ -66,10 +68,10 @@ namespace AgboolaBuyingTShirt.Test
 
             Thread.Sleep(1000);
 
-            // Step 8: Navigate to cart
+            // Step 8: Navigate to the cart by clicking the cart icon or accessing the cart page directly.
             driver.FindElement(By.CssSelector(".shopping_cart_link")).Click();
 
-            // Step 9: Verify cart page
+            // Step 9:  Verify that the cart page is displayed.
             IWebElement cartPageTitle = driver.FindElement(By.CssSelector(".title"));
             if (cartPageTitle.Text != "Your Cart")
             {
@@ -80,7 +82,7 @@ namespace AgboolaBuyingTShirt.Test
 
             Thread.Sleep(1000);
 
-            // Step 10: Verify T-shirt details in cart
+            // Step 10: Review the items in the cart and ensure that the T-shirt is listed with the correct details (name, price, quantity, etc.).
             IWebElement cartItemName = driver.FindElement(By.CssSelector(".inventory_item_name"));
             if (cartItemName.Text != "Sauce Labs Bolt T-Shirt")
             {
@@ -91,10 +93,10 @@ namespace AgboolaBuyingTShirt.Test
 
             Thread.Sleep(1000);
 
-            // Step 11:  Click the "Checkout" button
+            // Step 11: Click the "Checkout" button.
             driver.FindElement(By.CssSelector(".checkout_button")).Click();
 
-            // Step 12:  Verify that the checkout information page is displayed
+            // Step 12: Verify that the checkout information page is displayed.
             IWebElement checkoutPageTitle = driver.FindElement(By.CssSelector(".title"));
             if (checkoutPageTitle.Text != "Checkout: Your Information")
             {
@@ -105,17 +107,15 @@ namespace AgboolaBuyingTShirt.Test
 
             Thread.Sleep(1000);
 
-            // Step 13:  Enter the required checkout information
+            // Step 13: Enter the required checkout information (e.g., name, shipping address, payment details).
             driver.FindElement(By.Id("first-name")).SendKeys("Agboola");
             driver.FindElement(By.Id("last-name")).SendKeys("Daramola");
             driver.FindElement(By.Id("postal-code")).SendKeys("NG");
 
             Thread.Sleep(1000);
 
-            // Step 14:  Click the "Continue" button
+            // Step 14:  Click the "Continue" button.
             driver.FindElement(By.Id("continue")).Click();
-
-            Thread.Sleep(1000);
 
             // Step 15: Verify that the order summary page is displayed, showing the T-shirt details and the total amount
             IWebElement checkoutInfoPageTitle = driver.FindElement(By.CssSelector(".title"));
@@ -143,7 +143,7 @@ namespace AgboolaBuyingTShirt.Test
                 return;
             }
 
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
 
             driver.Quit();
         }
